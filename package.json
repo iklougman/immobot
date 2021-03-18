@@ -1,0 +1,21 @@
+{
+  "name": "immo-crawler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "test"
+  },
+  "author": "Igor Klougman",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.5",
+    "dotenv": "^8.2.0",
+    "forever": "^3.0.4",
+    "node-cron": "^3.0.0",
+    "telegraf": "^4.3.0"
+  }
+}
