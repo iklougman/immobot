@@ -18,8 +18,7 @@ export const findDiffs = (findings = {}) => {
         return []
     }
 
-    const diff = findings.filter((finding, index) => finding.title !== storedFindings[index].title)
-
+    const diff = findings.filter((finding, index) => (finding.title !== storedFindings[index].title) && finding.priceNum < 450000)
     console.log(diff.length + ' differences found')
 
     if (diff.length) {
