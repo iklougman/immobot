@@ -11,7 +11,7 @@ export const createTelegramMessage = (data = []) => {
 }
 
 export const findDiffs = (findings = {}) => {
-    const rawData = fs.readFileSync(`./src/data/data_${process.env.TELEGRAM_IGOR_ID}.json`)
+    const rawData = fs.readFileSync(`./src/data/data_${process.env.TELEGRAM_USER_ID}.json`)
     const storedFindings = JSON.parse(rawData)
 
     if (storedFindings[0].title === findings[0].title) {
@@ -23,7 +23,7 @@ export const findDiffs = (findings = {}) => {
     console.log(diff.length + ' differences found')
 
     if (diff.length) {
-        fs.writeFile(`./src/data/data_${process.env.TELEGRAM_IGOR_ID}.json`, JSON.stringify(findings), (err) => { if (err) throw err; })
+        fs.writeFile(`./src/data/data_${process.env.TELEGRAM_USER_ID}.json`, JSON.stringify(findings), (err) => { if (err) throw err; })
         return diff
     }
     return []
