@@ -5,17 +5,27 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "test": "test"
+    "start": "node ./src/index.js",
+    "clean": "rimraf dist",
+    "build": "npm run clean && mkdir -p dist && babel src -s -D -d dist",
+    "test": "jest --watch"
   },
   "author": "Igor Klougman",
   "license": "ISC",
   "dependencies": {
+    "@babel/polyfill": "^7.12.1",
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.5",
     "dotenv": "^8.2.0",
     "forever": "^3.0.4",
     "node-cron": "^3.0.0",
     "telegraf": "^4.3.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.13.10",
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.12",
+    "babel-jest": "^26.6.3",
+    "jest": "^26.6.3"
   }
 }

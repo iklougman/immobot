@@ -10,15 +10,25 @@ export const createTelegramMessage = (data = []) => {
     return messageBody
 }
 
-export const findDiffs = (findings = {}) => {
-    const rawData = fs.readFileSync(`./src/data/data_${process.env.TELEGRAM_USER_ID}.json`)
-    const storedFindings = JSON.parse(rawData)
+export const findDiffs = (findings = []) => {
+    const rawData = fs.readFileSync(`./src/data/data_${process.env.TELEGRAM_USER_ID}.json`) || []
+    const storedFindings = JSON.parse(rawData) || []
 
-    if (storedFindings[0].title === findings[0].title) {
+    if (!storedFindings.length) return findings
+
+    const [firstStored = {}] = storedFindings;
+    const [first = {}] = findings;
+    if (JSON.stringify(firstStored) === JSON.stringify(first)) {
+        console.log('0 differences found')
         return []
     }
+    const diff = findings.filter((finding, index) => {
+        if (!!storedFindings[index] && finding.priceNum < 450000 && finding.priceNum > 100000) {
+            return finding.link !== storedFindings[index].link
+        }
+        return false
+    })
 
-    const diff = findings.filter((finding, index) => (finding.title !== storedFindings[index].title) && finding.priceNum < 450000)
     console.log(diff.length + ' differences found')
 
     if (diff.length) {

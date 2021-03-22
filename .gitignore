@@ -51,3 +51,8 @@ jspm_packages
 
 #temps
 package-lock.json
+
+#dist
+dist
+
+.vscode

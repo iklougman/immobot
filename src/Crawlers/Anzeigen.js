@@ -27,11 +27,11 @@ class Anzeigen {
                 const price = $(node).find('.aditem-main--middle--price').text().trim()
                 return {
                     id: i,
-                    title: $(node).find('.text-module-begin a').text(),
-                    description: $(node).find('p[class="aditem-main--middle--description"]').text(),
-                    link: $(node).attr('data-href'),
+                    title: $(node).find('.text-module-begin a').text() || '',
+                    description: $(node).find('p[class="aditem-main--middle--description"]').text() || '',
+                    link: $(node).attr('data-href') || '',
                     price,
-                    priceNum: parseFloat(price.replace('.', '')) || 0,
+                    priceNum: parseFloat(price.split('.').join('')) || 0,
                     type: 'announcement',
                     picture: $(node).find('.imagebox').attr('data-imgsrc'),
                 }

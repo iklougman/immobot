@@ -1,15 +1,15 @@
-import Anzeigen from './src/Crawlers/Anzeigen.js'
+import Anzeigen from './Crawlers/Anzeigen.js'
 import cron from 'node-cron'
 import dotenv from 'dotenv'
 
 import { Telegraf } from 'telegraf'
-import { findDiffs } from './src/helpers/createTelegramMessage.js';
-import settings from './src/helpers/settings.js';
+import { findDiffs } from './helpers/createTelegramMessage.js';
+import settings from './helpers/settings.js';
 
 // ******* APPLICATION START ***********
 
-function start() {
-    dotenv.config({ path: 'my.env' })
+async function start() {
+    dotenv.config()
     const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
     bot.start((ctx) => ctx.reply('Herzlich wilkommen zu Immobot'))
     const crawler = new Anzeigen()
