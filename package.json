@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
-  "type": "module",
   "scripts": {
-    "start": "node ./src/index.js",
+    "start": "nodemon --exec babel-node ./src/index.js",
     "clean": "rimraf dist",
     "build": "npm run clean && mkdir -p dist && babel src -s -D -d dist",
     "test": "jest --watch"
@@ -13,12 +12,14 @@
   "author": "Igor Klougman",
   "license": "ISC",
   "dependencies": {
+    "@babel/node": "^7.13.12",
     "@babel/polyfill": "^7.12.1",
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.5",
     "dotenv": "^8.2.0",
     "forever": "^3.0.4",
     "node-cron": "^3.0.0",
+    "nodemon": "^2.0.7",
     "telegraf": "^4.3.0"
   },
   "devDependencies": {
