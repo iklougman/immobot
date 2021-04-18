@@ -60,3 +60,5 @@ dist
 .cache
 
 *.config.yaml
+
+tsconfig.tsbuildinfo
