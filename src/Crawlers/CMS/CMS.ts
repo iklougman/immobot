@@ -1,20 +1,14 @@
-// import { Logger } from "../Logger"
-// import { Crawler } from "./Crawler";
 import axios from 'axios'
 import cheerio from 'cheerio'
+import { generateHashTags } from '../../helpers/instaFeatures';
 
-
-class SparkImmobilien {
-    // getRetailerName() {
-    //     return "Anzeigen"
-    // }
-    // productIsValid(stock) {
-    //     return !stock.includes("is currently unavailable.")
-    // }
-    async crawlSite(logger) {
+// some maklers use special cms, possibly Openimmo 
+// http://www.openimmo.de/go.php/p/24/download.htm
+class CMS {
+    async crawlSite(url: string): Promise<any> {
         let announcementList = [];
         try {
-            const response = await axios.get('https://www.s-immobilienpartner.de/immodirekt/immobilien/?post_type=immomakler_object&vermarktungsart=kauf&nutzungsart&typ=haus&ort&center&radius=500&objekt-id&collapse&von-qm=0.00&bis-qm=890.00&von-zimmer=0.00&bis-zimmer=14.00&von-kaltmiete=0.00&bis-kaltmiete=100.00&von-kaufpreis=0.00&bis-kaufpreis=4475000.00', {
+            const response = await axios.get(url, {
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0',
                     "Accept-Language": "de-DE,en-US;q=0.9,en;q=0.8"
@@ -24,25 +18,30 @@ class SparkImmobilien {
             const $ = cheerio.load(html)
             announcementList = $('div[class="property-container"]').toArray()
             return announcementList.map((node, i) => {
+                const title = $(node).find('.property-subtitle').text() || ''
                 const price = $(node).find('.price').text()
                 const description = $(node).find('div.dt, div.dd').toArray().map((el, i) => $(el).text() + (i % 2 ? ', ' : ' ')).join('')
+                // @ts-ignore
+                const priceNum = parseFloat(price.match(/\d+/g).join('')) || 0
+                const hashtags = generateHashTags(priceNum)
                 return {
                     id: i,
-                    title: $(node).find('.property-subtitle').text() || '',
+                    title,
                     description,
                     link: $(node).find('.thumbnail').attr('href') || '',
                     price,
-                    priceNum: parseFloat(price.match(/\d+/g).join('')) || 0,
-                    type: 'sparkimmobilien',
+                    priceNum,
+                    type: 'CMS',
                     picture: $(node).find('img').attr('src'),
+                    hashtags
                 }
             })
 
         } catch (error) {
-            // logger.error(error.message)
+            console.log(error)
         };
         // logger.info(`Retailer ${this.getRetailerName()} stock text is returning: ${stock_list}`);
     }
 }
 
-export default SparkImmobilien
+export default CMS
