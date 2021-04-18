@@ -58,3 +58,5 @@ dist
 .vscode
 
 .cache
+
+*.config.yaml

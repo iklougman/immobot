@@ -1,9 +1,0 @@
-apps:
-  - script   : ./dist
-    name     : 'immobot'
-    instances: 4
-    exec_mode: cluster
-    env    :
-      NODE_ENV: production
-      TELEGRAM_BOT_TOKEN: 1685548830:AAGd3ouhSc4sjfpte8xJiBi09WSkqhrS_1A
-      TELEGRAM_USER_ID: 55741934
