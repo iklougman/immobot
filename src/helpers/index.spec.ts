@@ -1,6 +1,7 @@
 // import { fs, vol } from 'memfs';
 import fs from 'fs'
-import { findDiffs } from './createTelegramMessage'
+import { findMatches } from '.';
+
 import { oldFindings, newFindings } from '../fixtures'
 
 describe('should compare two objects and return differences', () => {
@@ -8,7 +9,7 @@ describe('should compare two objects and return differences', () => {
         jest.spyOn(fs, 'readFileSync').mockReturnValue(JSON.stringify(oldFindings))
         jest.spyOn(fs, 'writeFile').mockReturnValue()
         // @ts-ignore
-        const result = findDiffs(newFindings)
+        const result = findMatches(newFindings)
         console.log(result)
         expect(result).toHaveLength(1)
     });
@@ -17,14 +18,14 @@ describe('should compare two objects and return differences', () => {
         jest.spyOn(fs, 'readFileSync').mockReturnValue(JSON.stringify([]))
         jest.spyOn(fs, 'writeFile').mockReturnValue()
         // @ts-ignore
-        const result = findDiffs(newFindings)
+        const result = findMatches(newFindings)
         expect(result).toHaveLength(2)
     });
 
     it('should return  no finding when new data is []', () => {
         jest.spyOn(fs, 'readFileSync').mockReturnValue(JSON.stringify(oldFindings))
         jest.spyOn(fs, 'writeFile').mockReturnValue()
-        const result = findDiffs([])
+        const result = findMatches([])
         expect(result).toHaveLength(0)
     });
 })

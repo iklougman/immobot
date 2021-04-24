@@ -2,35 +2,57 @@ import cron from 'node-cron'
 import dotenv from 'dotenv'
 
 import { Telegraf } from 'telegraf'
-import { findDiffs } from './helpers/createTelegramMessage';
-
-import { randomizeEmoji } from './helpers/instaFeatures';
+import { constructSingleMessage, findMatches, readFile } from './helpers';
 import { Parser } from './Parser';
 import IFinding from './types/IFinding';
+import { getLogger } from 'log4js';
 
 // ******* APPLICATION START ***********
 
 async function start() {
+    /**
+     * Initialize dot.env
+     * Initialize settings
+     * get city to start parsing (Berlin, Munich, Hamburg etc.)
+     */
     dotenv.config()
+    const { argv = [] } = process
+    const logger = getLogger()
+    logger.level = "info";
+    const customArg = argv.find((arg) => arg.startsWith("--", 0))
+    const city = customArg?.slice(2)
+    logger.info('starting parser for ' + city)
+
+    if (!city) return null
+
+    const settings = readFile('../config', `${city}.json`)
+
+    /**
+     * Instantiate bot and parser
+     */
     // @ts-ignore
     const telegramBot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
     telegramBot.start((ctx) => ctx.reply('Herzlich wilkommen zu Immobot'))
     const parser = new Parser()
 
-    cron.schedule('* * * * *', async () => {
-        console.log('PARSING.....')
-        const findings = await parser.parse()
-        console.log(randomizeEmoji())
+    cron.schedule('*/2 * * * *', async () => {
 
-        const diffs: IFinding[] = findDiffs(findings)
-        diffs.forEach((diff: IFinding) => {
-            // bot.telegram.sendPhoto('@immochannel', `${diff.picture}`,
-            const emoji = randomizeEmoji()
+        logger.info('parsing started')
+
+        const findings = await parser.parse(settings, logger)
+
+        const matches: IFinding[] = findMatches(findings)
+
+        logger.info(`${matches.length} matches found`)
+
+        matches.forEach((match: IFinding) => {
             // @ts-ignore
             try {
-                // @ts-ignore
-                telegramBot.telegram.sendPhoto(process.env.TELEGRAM_USER_ID, `${diff.picture}`,
-                    { caption: `${emoji}<b>${diff.title}</b>\n<i>${diff.description}</i>\n<a href="${diff.link}">Zur Seite gehen</a>\n\n${diff.price}\n\n${diff.hashtags}\n`, parse_mode: 'HTML', disable_web_page_preview: false })
+                //@ts-ignore
+                telegramBot.telegram.sendPhoto(process.env.TELEGRAM_USER_ID, `${match.picture}`,
+                    {
+                        caption: constructSingleMessage(match), parse_mode: 'HTML', disable_web_page_preview: false
+                    })
             } catch (error) {
                 console.log(error)
             }

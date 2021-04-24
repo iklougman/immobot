@@ -1,4 +1,3 @@
-
 declare interface IFinding {
     id: number,
     title: string,
