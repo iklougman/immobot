@@ -16,11 +16,9 @@ async function start() {
      * get city to start parsing (Berlin, Munich, Hamburg etc.)
      */
     dotenv.config()
-    const { argv = [] } = process
     const logger = getLogger()
     logger.level = "info";
-    const customArg = argv.find((arg) => arg.startsWith("--", 0))
-    const city = customArg?.slice(2)
+    const city = process.env.CITY
     logger.info('starting parser for ' + city)
 
     if (!city) return null
