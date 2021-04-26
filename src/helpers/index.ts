@@ -3,10 +3,16 @@ import fs from 'fs'
 import IFinding from '../types/IFinding'
 import { randomizeEmoji } from './instaFeatures'
 
+/**
+ * 
+ * @param diff argument is a difference object between previously parsed and current announcement list
+ * @returns telegram bot single massage made of differnce object
+ */
+
 export const constructSingleMessage = (diff: IFinding): string => {
     const emoji = randomizeEmoji()
     const { title, description, link, price, hashtags } = diff
-    return `${emoji}<b>${title}</b>\n\n<i>${description}</i>\n${price}\n\n<a href="${link}">ansehen</a>\n\n${hashtags}\n`
+    return `${emoji}<b>${title}</b>\n\n<i>${description}</i>\n\n<b>\u{1F4B6} ${price}</b>\n\n<a href="${link}">\u{1F50D} ansehen</a>\n\n${hashtags}\n`
 }
 
 // export const constructListForMessage = (diffs: IFinding[]): string => {

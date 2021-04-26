@@ -24,7 +24,6 @@ async function start() {
     if (!city) return null
 
     const settings = readFile('../config', `${city}.json`)
-
     /**
      * Instantiate bot and parser
      */

@@ -1,4 +1,4 @@
-const emojis = ["\u{1F3E0}", "\u{1F3E1}", "\u{1F3E2}", "\u{1F306}", "\u{1F303}"]
+const emojis = ["\u{1F3E0}", "\u{1F3E1}", "\u{1F3E2}", "\u{1F306}", "\u{1F303}", "\u{1F4A5}"]
 
 export const randomizeEmoji = () => emojis[Math.floor(Math.random() * emojis.length)];
 
