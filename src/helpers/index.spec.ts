@@ -10,7 +10,6 @@ describe('should compare two objects and return differences', () => {
         jest.spyOn(fs, 'writeFile').mockReturnValue()
         // @ts-ignore
         const result = findMatches(newFindings)
-        console.log(result)
         expect(result).toHaveLength(1)
     });
 

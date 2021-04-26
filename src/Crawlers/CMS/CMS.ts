@@ -40,7 +40,6 @@ class CMS {
         } catch (error) {
             console.log(error)
         };
-        // logger.info(`Retailer ${this.getRetailerName()} stock text is returning: ${stock_list}`);
     }
 }
 

@@ -9,9 +9,10 @@ class Kleinanzeigen {
         let announcementList = [];
         try {
             const html = await request(url, logger)
+
             const $ = cheerio.load(html)
             announcementList = $('article[class="aditem"]').toArray()
-            return announcementList.filter((node, i) => {
+            return announcementList.map((node, i) => {
                 const price = $(node).find('.aditem-main--middle--price').text().trim()
 
                 /**

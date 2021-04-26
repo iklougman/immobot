@@ -10,7 +10,7 @@ export const request = async (url: string = '', logger: any) => {
         })
         return response.data
     } catch (error) {
-        logger.error(error);
+        logger.error('request resulted to ', error);
 
     }
 
