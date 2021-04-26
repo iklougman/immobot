@@ -42,19 +42,13 @@ async function start() {
 
         logger.info(`${matches.length} matches found`)
 
-        matches.forEach((match: IFinding) => {
-            // @ts-ignore
-            try {
-                //@ts-ignore
-                telegramBot.telegram.sendPhoto(process.env.TELEGRAM_USER_ID, `${match.picture}`,
-                    {
-                        caption: constructSingleMessage(match), parse_mode: 'HTML', disable_web_page_preview: false
-                    })
-            } catch (error) {
-                console.log(error)
-            }
-
-        });
+        await Promise.all(matches.map(async (match: IFinding) => {
+            //@ts-ignore
+            await telegramBot.telegram.sendPhoto(process.env.TELEGRAM_USER_ID, `${match.picture}`,
+                {
+                    caption: constructSingleMessage(match), parse_mode: 'HTML', disable_web_page_preview: false
+                })
+        })).catch((e) => logger.error(e));
     });
 }
 
