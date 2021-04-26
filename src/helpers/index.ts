@@ -56,7 +56,3 @@ export const findMatches = (findings = []) => {
     return []
 
 }
-
-export const textFilter = (titleString: string) => {
-    //add regexp
-}

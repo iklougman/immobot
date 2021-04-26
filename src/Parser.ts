@@ -12,7 +12,7 @@ export class Parser {
             logger.info(`crawl ${setting.name} with ${setting.type} parser type`)
             switch (setting.type) {
                 case 'generic':
-                    return await anzeigenCrawler.crawlSite(setting.url)
+                    return await anzeigenCrawler.crawlSite(setting.url, logger)
                 default:
                     return await cmsCrawler.crawlSite(setting.url);
             }
