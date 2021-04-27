@@ -12,4 +12,4 @@ export const searchFilter = (sentence: string): boolean => {
 
 }
 
-export const vbFilter = (parsedPrice: string = ''): boolean => parsedPrice.trim() !== 'VB'
+export const isVBPrice = (parsedPrice: string = ''): boolean => parsedPrice.trim() !== 'VB'

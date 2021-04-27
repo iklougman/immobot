@@ -1,5 +1,5 @@
 import cheerio from 'cheerio'
-import { searchFilter, vbFilter } from '../helpers/filters';
+import { searchFilter, isVBPrice } from '../helpers/filters';
 import { generateHashTags } from '../helpers/instaFeatures';
 import { request } from '../helpers/request';
 
@@ -20,7 +20,7 @@ class Kleinanzeigen {
                  * the probability is high, that 
                  * announcement is crap
                  */
-                if (vbFilter(price)) return false
+                if (!isVBPrice(price)) return false
 
                 const title = $(node).find('.text-module-begin a').text() || ''
                 /**
