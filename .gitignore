@@ -62,3 +62,7 @@ dist
 *.config.yaml
 
 tsconfig.tsbuildinfo
+
+./config
+
+./data

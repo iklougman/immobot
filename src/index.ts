@@ -17,7 +17,7 @@ async function start() {
      */
     dotenv.config()
     const logger = getLogger()
-    logger.level = "info";
+    logger.level = "default";
     const city = process.env.CITY
     logger.info('starting parser for ' + city)
 
