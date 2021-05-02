@@ -1,5 +1,5 @@
 import cheerio from 'cheerio'
-import { searchFilter, isVBPrice } from '../helpers/filters';
+import { regexFilter, isVBPrice } from '../helpers/filters';
 import { generateHashTags } from '../helpers/instaFeatures';
 import { request } from '../helpers/request';
 
@@ -26,7 +26,7 @@ class Kleinanzeigen {
                 /**
                  * return false for annoying "I'm searching" announcements
                  */
-                if (searchFilter(title)) return false
+                if (regexFilter(title)) return false
 
                 const priceNum = parseFloat(price.split('.').join('')) || 0
 

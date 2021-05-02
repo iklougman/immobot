@@ -1,4 +1,3 @@
-// import { fs, vol } from 'memfs';
 import fs from 'fs'
 import { findMatches } from '.';
 
