@@ -2,10 +2,11 @@ import cron from 'node-cron'
 import dotenv from 'dotenv'
 
 import { Telegraf } from 'telegraf'
-import { constructSingleMessage, findMatches, readFile } from './helpers';
+import { constructSingleMessage, findMatches } from './helpers';
 import { Parser } from './Parser';
 import IFinding from './types/IFinding';
 import { getLogger } from 'log4js';
+import { readFile } from './fileSystem';
 
 // ******* APPLICATION START ***********
 
