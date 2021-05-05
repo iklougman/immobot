@@ -1,37 +1,15 @@
 import cron from 'node-cron'
-import dotenv from 'dotenv'
-
-import { Telegraf } from 'telegraf'
 import { constructSingleMessage, findMatches } from './helpers';
-import { Parser } from './Parser';
+import { init } from './modules';
 import IFinding from './types/IFinding';
-import { getLogger } from 'log4js';
-import { readFile } from './fileSystem';
+
+
 
 // ******* APPLICATION START ***********
 
 async function start() {
-    /**
-     * Initialize dot.env
-     * Initialize settings
-     * get city to start parsing (Berlin, Munich, Hamburg etc.)
-     */
-    dotenv.config()
-    const logger = getLogger()
-    logger.level = "default";
-    const city = process.env.CITY
-    logger.info('starting parser for ' + city)
-
-    if (!city) return null
-
-    const settings = readFile('../config', `${city}.json`)
-    /**
-     * Instantiate bot and parser
-     */
-    // @ts-ignore
-    const telegramBot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
-    telegramBot.start((ctx) => ctx.reply('Herzlich wilkommen zu Immobot'))
-    const parser = new Parser()
+    const start: any = init()
+    const { logger, settings, telegramBot, parser } = start
 
     cron.schedule('*/2 * * * *', async () => {
 

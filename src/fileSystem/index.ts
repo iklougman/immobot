@@ -24,8 +24,8 @@ export const checkFileIsPresent = (fileName: string) => {
  * Creating an empty json file
  */
 
-export const createEmptyJsonFile = () => {
-    fs.writeFile(path.join(__dirname, '../data', `/data_${process.env.TELEGRAM_USER_ID}.json`), JSON.stringify(""), (err) => { if (err) throw err; })
+export const createEmptyJsonFile = (jsonFileName: string) => {
+    fs.writeFile(path.join(__dirname, '../data', `/data_${jsonFileName}.json`), JSON.stringify(""), (err) => { if (err) throw err; })
 }
 
 /**
