@@ -1,7 +1,17 @@
 const emojis = ["\u{1F3E0}", "\u{1F3E1}", "\u{1F3E2}", "\u{1F306}", "\u{1F303}", "\u{1F4A5}", "\u{1F496}",
     "\u{1F4AC}", "\u{1F44F}", "\u{1F3DB}", "\u{1F3D8}", "\u{1F3F0}", "\u{2709}", "\u{1F4CC}"]
 
+const giphys = ["https://media.giphy.com/media/f6PvtI3nkIQrTTzbSd/giphy.gif",
+    "https://media.giphy.com/media/3orif4O4lcd9KUdc76/giphy.gif",
+    "https://media.giphy.com/media/5xtDarqCp0eomZaFJW8/giphy.gif",
+    "https://media.giphy.com/media/n2IPMYMthV0m4/giphy.gif",
+    "https://media.giphy.com/media/l2Sq5q2RiUi39Nnz2/giphy.gif"
+
+]
+
 export const randomizeEmoji = () => emojis[Math.floor(Math.random() * emojis.length)];
+
+export const randomizeGiphy = () => giphys[Math.floor(Math.random() * giphys.length)];
 
 export const generateHashTags = (priceNum: number) => {
     if (priceNum <= 500) { return '#bis500€' } else

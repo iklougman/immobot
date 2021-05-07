@@ -15,15 +15,25 @@ export const constructSingleMessage = (diff: IFinding): string => {
     return `${emoji}<b>${title}</b>\n\n<i>${description}</i>\n\n<b>\u{1F4B6} ${price}</b>\n\n<a href="${link}">\u{1F50D} ansehen</a>\n\n${hashtags}\n`
 }
 
-// export const constructListForMessage = (diffs: IFinding[]): string => {
 /**
  * add some logic for many matches. Send list of matches instead off annoying messages
  */
-// const emoji = randomizeEmoji()
-// const lists =
-// const { title, description, link, price, hashtags } = diff
-// return `${emoji}<b>${title}</b>\n<i>${description}</i>\n<a href="${link}">Zur Seite gehen</a>\n\n${price}\n\n${hashtags}\n`
-// }
+export const constructListForMessage = (diffs: IFinding[]): string => {
+    const maxMatchesNumber = diffs.length > 20 ? 20 : diffs.length
+    let message = `<b>Wir schätzen Deine Ruhe</b>\nund fassen ${maxMatchesNumber} neue Immobilienangebote zusammen:\n\n`
+    diffs.map((diff, i) => {
+        /**
+         * doesn't make a huge sense to send more than 20 matches,
+         * if yes there is something wrong
+         */
+        if (i > 20) return ""
+        const { title, link, price } = diff
+
+        message = message.concat(`${title.slice(0, 20).concat('...')}<b>\u{1F4B6} ${price} </b><a href="${link}">ansehen \u{27A1}</a>\n\n`)
+    })
+    return message
+}
+
 
 
 
