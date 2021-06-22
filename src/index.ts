@@ -8,7 +8,9 @@ async function start() {
     const start: any = init()
     const { logger, settings, telegramBot, parser } = start
 
-    cron.schedule('*/2 * * * *', async () => {
+    const cronFreq = process.env.CRON || '*/2 * * * *'
+
+    cron.schedule(cronFreq, async () => {
 
         logger.info('parsing started')
 
@@ -17,7 +19,7 @@ async function start() {
         const matches: IFinding[] = findMatches(findings)
 
         logger.info(`${matches.length} matches found`)
-
+        console.log(matches)
         if (matches.length > 3) {
             const message = constructListForMessage(matches)
             await telegramBot.telegram.sendAnimation(process.env.TELEGRAM_USER_ID, `${randomizeGiphy()}`,
@@ -30,7 +32,7 @@ async function start() {
             await telegramBot.telegram.sendPhoto(process.env.TELEGRAM_USER_ID, `${match.picture}`,
                 {
                     caption: constructSingleMessage(match), parse_mode: 'HTML', disable_web_page_preview: false,
-                    disable_notification: index > 2 && true
+                    disable_notification: index > 2
                 })
         })).catch((e) => logger.error('Telegram message sending results to ', e));
     });
