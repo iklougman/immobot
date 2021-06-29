@@ -16,7 +16,7 @@ export const checkFileIsPresent = (fileName: string) => {
             return false
         }
     } catch (err) {
-        console.error(err);
+        console.error('file present check error', err);
     }
 }
 
