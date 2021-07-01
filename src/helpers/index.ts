@@ -51,8 +51,6 @@ export const findMatches = (findings = []) => {
     console.log(differences.length + ' differences found')
 
     if (differences.length) {
-        //to prevent very long json files use LIFO way
-        storedFindings.splice(0, differences.length)
         storeFile([...storedFindings, ...differences])
         return differences
     }
