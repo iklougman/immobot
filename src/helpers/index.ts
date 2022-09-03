@@ -1,6 +1,8 @@
 import IFinding from '../types/IFinding'
 import { randomizeEmoji } from './instaFeatures'
 import { readFile, storeFile } from '../fileSystem'
+import {RedisClientType} from "redis";
+import {newFindings} from "../fixtures";
 
 /**
  * 
@@ -34,9 +36,6 @@ export const constructListForMessage = (diffs: IFinding[]): string => {
     return message
 }
 
-
-
-
 export const findMatches = (findings = []) => {
 
     const storedFindings = readFile('../data', `/data_${process.env.TELEGRAM_USER_ID}.json`)
@@ -56,4 +55,23 @@ export const findMatches = (findings = []) => {
     }
     return []
 
+}
+
+export const findMatchesRedis = async (client: RedisClientType, findings: IFinding[]) : IFinding[] => {
+    let diff: IFinding[] = []
+
+    // let opt: SetOptions = {
+    //
+    // }
+
+    for (const f of findings) {
+        const exists = await client.exists(f.link)
+        if (!exists) {
+            diff.push(f)
+            await client.set(f.link, JSON.stringify(f))
+        }
+    }
+    console.log(diff.length + ' differences found')
+
+    return diff
 }

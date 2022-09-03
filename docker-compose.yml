@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+
+#  crawler:
+#    image: immobot/immo-crawler
+#    ports:
+#      - "80:80"
+#    restart: unless-stopped
+#    networks:
+#      - app-tier
+
+  redis:
+    container_name: redis
+    image: redis:7
+    restart: always
+    ports:
+      - '6379:6379'
+      - '8001:8001'
+    command: redis-server --loglevel debug
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - app-tier
+    volumes:
+      - cache:/data
+
+  rabbit:
+    container_name: rabbitmq
+    image: heidiks/rabbitmq-delayed-message-exchange:latest
+    restart: always
+#    environment:
+#      - RABBITMQ_DEFAULT_USER=admin
+#      - RABBITMQ_DEFAULT_PASS=password
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq/
+    networks:
+      - app-tier
+
+volumes:
+  cache:
+    driver: local
+  rabbitmq:
+    driver: local
+
+networks:
+  app-tier:
+    driver: bridge
+
+#    healthcheck:
+#      test: ["CMD", "./check.sh"]
+#      interval: 60s
+#      retries: 3
+#      start_period: 120s
